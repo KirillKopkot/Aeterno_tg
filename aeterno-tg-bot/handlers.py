@@ -4,6 +4,7 @@ import tempfile
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (
+    Application,
     CallbackQueryHandler,
     CommandHandler,
     ContextTypes,
@@ -325,3 +326,10 @@ def build_conversation_handler() -> ConversationHandler:
         ],
         conversation_timeout=600,
     )
+
+
+def register_handlers(app: Application) -> None:
+    app.add_handler(build_conversation_handler())
+    app.add_handler(CallbackQueryHandler(copy_last, pattern="^copy_last$"))
+    app.add_handler(CallbackQueryHandler(download_last, pattern="^download_last$"))
+    app.add_handler(CallbackQueryHandler(back_to_menu, pattern="^back_to_menu$"))
